@@ -1,17 +1,36 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const apptController = require('./apptController');
+const doctorController = require('./doctorController');
 const app = express();
 const PORT = 3000;
-
 
 
 // parse incoming request with json
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// handle requests for static files
-app.use(express.static(path.resolve(__dirname, '')));
+// get all doctors
+app.get('/doc', doctorController.getDoctors, (req, res) => {
+  res.status(200).json(res.locals.doctors);
+})
+
+// get all appointments for a particular doctor and particular day
+app.get('/getAppt/doc/:docId', apptController.getAppointment, (req, res) => {
+  res.status(200).json(res.locals.appointments);
+});
+
+// create new appointment for a doctor
+app.post('/addAppt/doc/:docId', apptController.addAppointment, apptController.getAll, (req, res) => {
+  console.log('invoked add');
+  res.status(200).json(res.locals.newAppt);
+})
+
+// delete appointment for a doctor
+app.delete('/deleteAppt/doc/:docId/delete/:apptId', apptController.deleteAppointment, apptController.getAll, (req, res) => {
+  res.status(200).send('appointment deleted')
+})
 
 // serve html page
 app.get('/', (req, res) => {
