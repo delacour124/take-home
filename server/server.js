@@ -11,25 +11,24 @@ const PORT = 3000;
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// get all doctors
-app.get('/doc', doctorController.getDoctors, (req, res) => {
-  res.status(200).json(res.locals.doctors);
-})
-
 // get all appointments for a particular doctor and particular day
-app.get('/getAppt/doc/:docId', apptController.getAppointment, (req, res) => {
+app.get('/doc/:docId/getAppt', apptController.getAppointment, (req, res) => {
   res.status(200).json(res.locals.appointments);
 });
 
 // create new appointment for a doctor
-app.post('/addAppt/doc/:docId', apptController.addAppointment, apptController.getAll, (req, res) => {
-  console.log('invoked add');
-  res.status(200).json(res.locals.newAppt);
+app.post('/doc/:docId/addAppt', apptController.addAppointment, (req, res) => {
+  res.status(200).json(res.locals.appointments);
 })
 
 // delete appointment for a doctor
-app.delete('/deleteAppt/doc/:docId/delete/:apptId', apptController.deleteAppointment, apptController.getAll, (req, res) => {
+app.delete('doc/:docId/deleteAppt/:apptId', apptController.deleteAppointment, (req, res) => {
   res.status(200).send('appointment deleted')
+})
+
+// get all doctors
+app.get('/doc', doctorController.getDoctors, (req, res) => {
+  res.status(200).json(res.locals.doctors);
 })
 
 // serve html page
