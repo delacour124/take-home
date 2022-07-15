@@ -18,7 +18,7 @@ app.get('/doc/:docId/getAppt', apptController.getAppointment, (req, res) => {
 
 // create new appointment for a doctor
 app.post('/doc/:docId/addAppt', apptController.addAppointment, (req, res) => {
-  res.status(200).json(res.locals.appointments);
+  res.status(200).send('appointment added');
 })
 
 // delete appointment for a doctor
