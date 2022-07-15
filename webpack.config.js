@@ -11,12 +11,15 @@ module.exports = {
     filename: 'bundle.js',
   },
   devServer: {
+    host: 'localhost',
+    port: 8080,
     static: {
       directory: path.resolve(__dirname, 'build'),
       publicPath: '/',
     },
+    hot: true,
     proxy: {
-      '/api': 'http://localhost:3000',
+      '/doc/**': 'http://localhost:3000',
     }
   },
   module: {
